@@ -3,19 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>MPS, 성장기 엘리트선수의 몸과 마음을 함께 읽습니다 · MPS 안내서 | 주니어골든에이지</title>
-<meta name="description" content="10~15세 축구선수의 마음(M)·몸(P)·성장 시계(S)를 데이터로 확인하는 MPS 검사 학부모 안내서">
-<meta name="theme-color" content="#1B2A5E">
+<title>MPS, 성장기 엘리트선수의 훈련과 선발을 데이터로 설계합니다 · MPS 지도자 안내서 | 주니어골든에이지</title>
+<meta name="description" content="10~15세 축구선수의 마음(M)·몸(P)·성장 시계(S)를 데이터로 확인하는 MPS 검사 지도자·팀관계자 안내서">
+<meta name="theme-color" content="#141414">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
 <style>
   *{ margin:0; padding:0; box-sizing:border-box; -webkit-text-size-adjust:100%; }
   :root{
-    --navy:#1B2A5E; --navy2:#0F1B3D; --red:#E4032E;
-    --m-blue:#2F6FED; --m-bg:#EAF2FE;
-    --p-red:#E4536B; --p-bg:#FDEDF0;
-    --s-green:#2FA36B; --s-bg:#E9F7F0;
-    --ink:#26324B; --sub:#5B6B85; --line:#E3E9F2; --bg:#F6F8FB;
-    --amber:#B7791F; --amber-bg:#FEF6E4;
+    /* ===== MPS 공식 브랜드 컬러 (MPS Brand Guide 기준) =====
+       Main: #fc582b(오렌지) · Sub: 블루/퍼플/그린/옐로우/탄
+       기존 변수명은 유지하고 값만 브랜드 컬러로 매핑했습니다. */
+    --navy:#141414; --navy2:#000000; --red:#FC582B;
+    --m-blue:#799BF4; --m-bg:#E5ECFD;
+    --p-red:#A6A1FB; --p-bg:#E3E3FF;
+    --s-green:#4DA969; --s-bg:#E8F9EC;
+    --ink:#1A1A1A; --sub:#6E6E73; --line:#E4E4E4; --bg:#F6F6F5;
+    --amber:#8C8A2E; --amber-bg:#F3F7CD;
+    --brand-tan:#BCA988; --brand-tan-bg:#F6F7F0;
     --pad:20px; --radius:16px;
   }
   html{ scroll-behavior:smooth; }
@@ -34,8 +38,7 @@
   }
   .topbar-in{ max-width:640px; margin:0 auto; display:flex; align-items:center; gap:8px;
               padding:12px var(--pad); }
-  .logo-dot{ width:24px; height:24px; border-radius:8px; background:var(--red); color:#fff;
-             display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; flex:none; }
+  .logo-mark{ height:22px; width:auto; display:block; flex:none; }
   .topbar-t{ font-size:13px; font-weight:800; letter-spacing:2px; color:var(--navy); }
   .nav{ display:flex; gap:6px; margin-left:auto; }
   .nav a{ font-size:12px; font-weight:800; text-decoration:none; padding:5px 9px; border-radius:20px; }
@@ -77,9 +80,9 @@
   .stat .d{ font-size:14px; color:var(--sub); line-height:1.5; }
 
   .callout{ background:var(--navy2); color:#fff; border-radius:var(--radius); padding:20px; margin-top:18px; }
-  .callout .tag{ font-size:11.5px; font-weight:700; color:#8FA4D8; letter-spacing:2px; margin-bottom:8px; }
+  .callout .tag{ font-size:11.5px; font-weight:700; color:#9E9E9E; letter-spacing:2px; margin-bottom:8px; }
   .callout p{ font-size:16px; line-height:1.75; }
-  .callout b{ color:#FFD9E0; }
+  .callout b{ color:#F2AA9C; }
 
   .qa{ border-left:4px solid var(--red); padding-left:14px; margin-top:20px; }
   .qa .q{ font-size:16px; font-weight:800; color:var(--navy); margin-bottom:5px; line-height:1.45; }
@@ -109,9 +112,61 @@
   .light{ background:#fff; border:1px solid var(--line); border-radius:13px; padding:12px 6px; text-align:center; }
   .light .d{ font-size:12px; color:var(--sub); margin-top:6px; line-height:1.4; }
 
+  /* ===== 선수 활용 지도 (2x2) ===== */
+  .quadgrid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .quad{ border-radius:14px; padding:14px; }
+  .quad .t{ font-size:14.5px; font-weight:800; }
+  .quad .d{ font-size:12.5px; color:var(--ink); opacity:.8; margin-top:5px; line-height:1.5; }
+
+  /* ===== 대시보드 목업(가상 데이터) 프리뷰 ===== */
+  .mockwrap{ margin-top:14px; border-radius:var(--radius); overflow:hidden;
+             box-shadow:0 8px 26px rgba(0,0,0,0.16); }
+  .mockbar{ background:#050505; padding:8px 14px; display:flex; align-items:center; gap:6px; }
+  .mockbar .dot{ width:8px; height:8px; border-radius:50%; background:#3A3A3A; }
+  .mockbar .u{ margin-left:10px; font-size:10px; color:#6a6a6a; letter-spacing:.5px; }
+  .mockscreen{ background:#101012; color:#fff; padding:18px 16px 20px; }
+  .mocktabs{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+  .mocktab{ font-size:10.5px; font-weight:700; padding:5px 10px; border-radius:20px;
+            background:#1F1F22; color:#8A8A90; }
+  .mocktab.on{ background:#fff; color:#101012; }
+  .mock-h{ font-size:11px; color:#8A8A90; letter-spacing:.5px; margin-bottom:4px; }
+  .mockscore{ font-size:28px; font-weight:800; }
+  .mockcomment{ font-size:12px; color:#B7B7BC; margin-top:6px; line-height:1.6; max-width:320px; }
+  .mockstats{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:14px; }
+  .mockstat{ background:#1A1A1D; border-radius:10px; padding:10px; }
+  .mockstat .n{ font-size:16px; font-weight:800; }
+  .mockstat .l{ font-size:9.5px; color:#8A8A90; margin-top:2px; line-height:1.4; }
+  .mockmap{ position:relative; height:150px; background:#1A1A1D; border-radius:12px; margin-top:14px; }
+  .mockmap::before, .mockmap::after{ content:""; position:absolute; background:#2C2C30; }
+  .mockmap::before{ left:50%; top:8px; bottom:8px; width:1px; }
+  .mockmap::after{ top:50%; left:8px; right:8px; height:1px; }
+  .mockdot{ position:absolute; width:9px; height:9px; border-radius:50%; transform:translate(-50%,-50%); }
+  .mockdot span{ position:absolute; top:12px; left:50%; transform:translateX(-50%);
+                 font-size:8.5px; color:#B7B7BC; white-space:nowrap; }
+  .mockquad-label{ position:absolute; font-size:8.5px; font-weight:800; padding:2px 6px; border-radius:8px; }
+  .mockgrid4{ display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:14px; }
+  .mockcard{ background:#1A1A1D; border-radius:10px; padding:10px; }
+  .mockcard .l{ font-size:9px; color:#8A8A90; }
+  .mockcard .n{ font-size:13px; font-weight:800; margin:3px 0 6px; }
+  .mockcard .bar{ height:5px; border-radius:4px; background:#2C2C30; overflow:hidden; }
+  .mockcard .bar i{ display:block; height:100%; border-radius:4px; }
+  .mockrows{ margin-top:14px; }
+  .mockrow{ display:flex; align-items:center; justify-content:space-between; gap:10px;
+            padding:9px 0; border-bottom:1px solid #232326; font-size:11.5px; }
+  .mockrow:last-child{ border-bottom:none; }
+  .mockrow .nm{ font-weight:700; min-width:52px; }
+  .mockrow .mid{ color:#8A8A90; flex:1; }
+  .mockrow .rt{ color:#fff; font-weight:700; }
+  .mockradar2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
+  .mockradar2 .cap{ font-size:10px; color:#8A8A90; text-align:center; margin-top:4px; }
+  .mocktable{ margin-top:14px; width:100%; border-collapse:collapse; font-size:10.5px; }
+  .mocktable th{ text-align:left; color:#8A8A90; font-weight:600; padding-bottom:8px; font-size:9.5px; }
+  .mocktable td{ padding:7px 0; border-top:1px solid #232326; }
+  .mocklabel{ font-size:10.5px; color:#6E6E73; text-align:center; margin-top:8px; }
+
   .chartbox{ margin-top:16px; background:var(--bg); border-radius:var(--radius); padding:14px 8px; }
   .chartbox svg{ width:100%; height:auto; display:block; }
-  .cap{ font-size:12.5px; color:#9AA7BC; text-align:center; margin-top:6px; }
+  .cap{ font-size:12.5px; color:#A6A6A6; text-align:center; margin-top:6px; }
 
   .bigval{ font-size:26px; font-weight:800; margin-top:10px; }
   .bigval span{ font-size:13px; font-weight:600; color:var(--sub); }
@@ -119,17 +174,17 @@
   /* ===== 사진 영역 ===== */
   .photos{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px; }
   .photo{ position:relative; border-radius:14px; overflow:hidden; background:var(--bg);
-          border:2px dashed #C3CEDD; aspect-ratio:4/3; display:flex; flex-direction:column;
+          border:2px dashed #D8D8D8; aspect-ratio:4/3; display:flex; flex-direction:column;
           align-items:center; justify-content:center; text-align:center; padding:10px; }
   .photo img{ width:100%; height:100%; object-fit:cover; display:block; border-radius:12px; }
   .photo.filled{ border:none; padding:0; }
   .photo .ph-ico{ font-size:22px; margin-bottom:6px; opacity:.55; }
   .photo .ph-t{ font-size:12.5px; font-weight:800; color:var(--navy); line-height:1.4; }
-  .photo .ph-f{ font-size:10.5px; color:#9AA7BC; margin-top:4px; word-break:break-all; }
+  .photo .ph-f{ font-size:10.5px; color:#A6A6A6; margin-top:4px; word-break:break-all; }
   .photo-cap{ font-size:12.5px; color:var(--sub); margin-top:8px; line-height:1.55; }
   .photos-title{ font-size:13px; font-weight:800; letter-spacing:1px; color:var(--sub); margin-top:22px; }
 
-  .hero{ padding:40px var(--pad) 30px; background:linear-gradient(165deg,#FFFFFF 50%,#EEF3FC 100%); }
+  .hero{ padding:40px var(--pad) 30px; background:linear-gradient(165deg,#FFFFFF 50%,#F8E1DB 100%); }
   .hero h1{ font-size:clamp(30px,8.6vw,40px); margin-top:20px; }
   .rule{ width:66px; height:7px; background:var(--red); border-radius:6px; margin:22px 0; }
   .mps3{ display:grid; grid-template-columns:1fr; gap:10px; margin-top:26px; }
@@ -138,11 +193,11 @@
   .mps3 .item .tt{ font-size:16px; font-weight:800; color:var(--navy); }
   .mps3 .item .dd{ font-size:13.5px; color:var(--sub); margin-top:2px; line-height:1.5; }
 
-  footer{ background:var(--navy2); color:#93A2C4; padding:28px var(--pad) calc(34px + env(safe-area-inset-bottom));
+  footer{ background:var(--navy2); color:#9E9E9E; padding:28px var(--pad) calc(34px + env(safe-area-inset-bottom));
           margin-top:34px; text-align:center; }
   footer .f1{ color:#fff; font-size:17px; font-weight:800; line-height:1.6; }
   footer .f2{ font-size:13px; margin-top:12px; line-height:1.7; }
-  footer .f3{ font-size:11.5px; margin-top:16px; color:#6B7BA3; line-height:1.6; }
+  footer .f3{ font-size:11.5px; margin-top:16px; color:#8A8A8A; line-height:1.6; }
 
   /* ===== 상단 진행바 ===== */
   .progress{ height:3px; background:var(--line); }
@@ -204,7 +259,7 @@
     max-height:72vh; overflow-y:auto; -webkit-overflow-scrolling:touch;
   }
   .fab-menu.show{ opacity:1; visibility:visible; transform:translateY(0) scale(1); }
-  .fab-menu-head{ font-size:12px; font-weight:800; letter-spacing:1.5px; color:#9AA7BC;
+  .fab-menu-head{ font-size:12px; font-weight:800; letter-spacing:1.5px; color:#A6A6A6;
                   padding:10px 12px 8px; }
   .fab-menu a{
     display:grid; grid-template-columns:34px 1fr; grid-template-rows:auto auto;
@@ -254,8 +309,8 @@
 
 <div class="topbar">
   <div class="topbar-in">
-    <div class="logo-dot">✓</div>
-    <div class="topbar-t">MPS GUIDE</div>
+    <img class="logo-mark" src="data:image/png;base64,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" alt="MPS">
+    <div class="topbar-t">MPS COACH GUIDE</div>
     <nav class="nav">
       <a class="m" href="#mental">M</a>
       <a class="p" href="#physical">P</a>
@@ -270,13 +325,14 @@
 
 <nav class="fab-menu" id="fabMenu" aria-label="목차">
   <div class="fab-menu-head">목차 · 보고 싶은 곳으로</div>
-  <a href="#home"     data-t="home"><i class="ic" style="background:#EEF1F6; color:#1B2A5E;">홈</i><b>첫화면</b><span>MPS란 무엇인가</span></a>
-  <a href="#why"      data-t="why"><i class="ic" style="background:#FDEDF0; color:#E4032E;">!</i><b>왜 필요한가요</b><span>부모님의 두 가지 마음</span></a>
-  <a href="#overview" data-t="overview"><i class="ic" style="background:#EEF1F6; color:#1B2A5E;">◎</i><b>MPS 한눈에 보기</b><span>검사 진행 방법</span></a>
-  <a href="#mental"   data-t="mental"><i class="ic lm">M</i><b>멘탈</b><span>마음에도 체력이 있습니다</span></a>
-  <a href="#physical" data-t="physical"><i class="ic lp">P</i><b>피지컬</b><span>아프기 전에 신호를 잡습니다</span></a>
-  <a href="#stage"    data-t="stage"><i class="ic ls">S</i><b>성장단계</b><span>너의 진짜 나이는?</span></a>
-  <a href="#summary"  data-t="summary"><i class="ic" style="background:#E9F7F0; color:#2FA36B;">★</i><b>한 장 요약</b><span>꼭 드리고 싶은 말</span></a>
+  <a href="#home"     data-t="home"><i class="ic" style="background:#EFEFED; color:#141414;">홈</i><b>첫화면</b><span>MPS란 무엇인가</span></a>
+  <a href="#why"      data-t="why"><i class="ic" style="background:#F8E1DB; color:#FC582B;">!</i><b>지도자의 세 가지 판단</b><span>선발·훈련강도·통증신호</span></a>
+  <a href="#overview" data-t="overview"><i class="ic" style="background:#EFEFED; color:#141414;">◎</i><b>MPS 한눈에 보기</b><span>검사와 팀 적용 흐름</span></a>
+  <a href="#dashboard" data-t="dashboard"><i class="ic" style="background:#F6F7F0; color:#BCA988;">⊞</i><b>팀 대시보드</b><span>선수단 한눈에 관리하기</span></a>
+  <a href="#mental"   data-t="mental"><i class="ic lm">M</i><b>멘탈</b><span>경기력으로 이어지는 마음훈련</span></a>
+  <a href="#physical" data-t="physical"><i class="ic lp">P</i><b>피지컬</b><span>훈련부하·부상관리 신호</span></a>
+  <a href="#stage"    data-t="stage"><i class="ic ls">S</i><b>성장단계</b><span>바이오밴딩과 선발기준</span></a>
+  <a href="#summary"  data-t="summary"><i class="ic" style="background:#E8F9EC; color:#4DA969;">★</i><b>한 장 요약</b><span>코칭스태프가 기억할 것</span></a>
 </nav>
 
 <button class="fab" id="fabBtn" aria-label="목차 열기" aria-expanded="false">
@@ -292,75 +348,75 @@
 
 <!-- ========== HERO ========== -->
 <section id="home" class="hero">
-  <div class="kicker">주니어골든에이지 · 보호자분들께 드리는 안내서</div>
-  <h1>MPS<br>성장기 선수의 몸과 마음을 함께 읽습니다</h1>
+  <div class="kicker">주니어골든에이지 · 지도자·팀관계자분들께 드리는 안내서</div>
+  <h1>MPS<br>성장기 선수의 훈련과 선발을 데이터로 함께 설계합니다</h1>
   <div class="rule"></div>
   <p style="font-size:17px; line-height:1.75;">
     10~15세 축구선수의 <b style="color:var(--red);">마음(M) · 몸(P) · 성장 시계(S)</b>를
-    데이터로 확인하는 MPS 검사측정, "이 시기는 다시 오지 않습니다"
+    데이터로 확인하는 MPS 검사측정, "같은 학년, 다른 몸 — 훈련은 그 차이를 알아야 합니다"
   </p>
 
   <div class="mps3">
     <div class="item">
       <div class="letter lm">M</div>
-      <div><div class="tt">Mental</div><div class="dd">경기에서 흔들리지 않는 마음의 힘</div></div>
+      <div><div class="tt">Mental</div><div class="dd">경기력으로 이어지는 마음의 힘을 진단</div></div>
     </div>
     <div class="item">
       <div class="letter lp">P</div>
-      <div><div class="tt">Physical &amp; Risk</div><div class="dd">눈에 안 보이는 피로와 부상 위험 신호</div></div>
+      <div><div class="tt">Physical &amp; Risk</div><div class="dd">훈련부하 조절과 부상 예방 신호</div></div>
     </div>
     <div class="item">
       <div class="letter ls">S</div>
-      <div><div class="tt">Stage of Growth</div><div class="dd">뼈 나이로 보는 진짜 성장 단계</div></div>
+      <div><div class="tt">Stage of Growth</div><div class="dd">바이오밴딩·선발 기준이 되는 성장 데이터</div></div>
     </div>
   </div>
 
   <div class="callout" style="text-align:center; margin-top:26px;">
-    <p style="font-weight:700;">“너의 진짜 나이는?”<br><b>11명의 선수, 11가지 성장속도</b></p>
+    <p style="font-weight:700;">“같은 나이여도, 몸의 준비는 다릅니다”<br><b>11명의 선수, 11가지 성장속도</b></p>
   </div>
 </section>
 
 <!-- ========== WHY ========== -->
 <section id="why" class="tinted">
-  <div class="kicker">WHY · 부모님의 두 가지 마음</div>
-  <h2>불안도, 확신도,<br>아이를 사랑해서입니다</h2>
+  <div class="kicker">WHY · 지도자가 마주하는 현실</div>
+  <h2>재능을 판단하는 게 아니라,<br>성장 시점을 판단하는 것입니다</h2>
   <p class="lead">
-    현장에서 뵙는 부모님의 마음은 크게 두 가지입니다.
-    <b>“우리 아이가 또래보다 작은데 괜찮을까요?”</b>라는 불안과 걱정, 그리고
-    <b>“지금 팀에서 제일 크고 잘하는데 이대로 가면 되겠죠?”</b>라는 지나친 확신입니다.
+    현장에서 코칭스태프가 매일 내리는 판단은 크게 세 가지입니다.
+    <b>“누구를 주전으로 쓸 것인가”, “오늘 훈련 강도를 어디까지 올릴 것인가”,
+    “이 통증을 훈련으로 볼 것인가 휴식 신호로 볼 것인가.”</b>
   </p>
   <p class="body">
-    정반대로 보이지만 둘 다 아이를 사랑해서 생기는 마음입니다.
-    다만 판단의 근거가 없으면 <b>걱정은 조급함이 되고, 확신은 아이의 부담이 됩니다.</b>
+    경험과 감으로 충분히 좋은 결정을 내려오셨지만, 근거가 없으면 같은 판단도
+    <b>매번 다시 흔들리고, 선수와 학부모에게 설명하기가 어렵습니다.</b>
   </p>
 
   <div class="stats">
     <div class="stat"><div class="n">43%</div><div class="d">중학교 입학 전후,<br>유소년 축구선수 중도 이탈</div></div>
-    <div class="stat"><div class="n">83.1%</div><div class="d">“성장진단 받아보고 싶다”<br>학부모 325명 설문</div></div>
     <div class="stat"><div class="n">6배+</div><div class="d">늦게 크는 선수가 그 시기를<br>버텼을 때의 프로 진입 확률</div></div>
+    <div class="stat"><div class="n">±2~3세</div><div class="d">같은 학년 안에서도<br>선수 간 골연령 차이</div></div>
   </div>
 
   <div class="card">
     <h3>현장에서 놓치기 쉬운 세 가지</h3>
     <div class="deflist">
-      <div class="row"><div class="k">성장 타이밍</div><div class="v">생년월일이 같으면 같은 기준으로 평가받습니다. 월령효과도 중요하지만 "상대적 성장효과는 더 중요합니다."" 늦게 크는 아이는 실력이 아닌 다른 이유로 기회를 잃습니다.</div></div>
-      <div class="row"><div class="k">부상 관리</div><div class="v">훈련량과 회복 상태를 확인하는 기준이 없어, 피로가 조용히 쌓이다 반복 부상과 번아웃으로 이어집니다.</div></div>
-      <div class="row"><div class="k">멘탈 관리</div><div class="v">실수 후 무너지는 아이, 긴장이 심한 아이가 “멘탈이 약해서, 성향이 아니라서”라는 한마디로 정리되어 낙인찍혀 버립니다.</div></div>
+      <div class="row"><div class="k">선발 기준</div><div class="v">생년월일이 같으면 같은 기준으로 보게 됩니다. 그러나 골연령이 빠른 선수가 지금은 유리해 보여도, "지금 잘함"이 나중까지 이어진다는 보장은 없습니다. 반대로 지금 밀리는 선수가 늦게 만개하는 경우도 많습니다.</div></div>
+      <div class="row"><div class="k">훈련부하 관리</div><div class="v">훈련량과 강도를 조절할 객관적 기준이 없으면, 피로가 조용히 쌓이다 반복 부상과 번아웃으로 이어집니다.</div></div>
+      <div class="row"><div class="k">멘탈 관리</div><div class="v">경기 중 흔들리는 선수, 위축된 선수가 “멘탈이 약해서, 성향이 아니라서”라는 한마디로 정리되면 개별화된 코칭이 어려워집니다.</div></div>
     </div>
   </div>
 
   <div class="card tint">
-    <h3>유럽은 이미 ‘바이오밴딩’으로 아이를 봅니다</h3>
-    <p>잉글랜드·독일·벨기에의 유소년 시스템은 2015년부터 선수를 <b>생년이 아닌 성숙도(뼈 나이) 기준</b>으로 평가합니다.
-    지금 작아 보여도 성장 여지가 큰 아이를 놓치지 않기 위해서입니다.
-    MPS는 이 방식을 한국 아이들의 측정평가 데이터로 옮기고, <b>멘탈과 부상 관리까지 함께</b> 봅니다.</p>
+    <h3>유럽은 이미 ‘바이오밴딩’으로 선수를 나눕니다</h3>
+    <p>잉글랜드·독일·벨기에의 유소년 시스템은 2015년부터 선수를 <b>생년이 아닌 성숙도(뼈 나이) 기준</b>으로
+    훈련그룹과 선발을 조정합니다. 지금 작아 보여도 성장 여지가 큰 선수를 놓치지 않기 위해서입니다.
+    MPS는 이 방식을 한국 선수단의 측정평가 데이터로 옮기고, <b>멘탈과 부상 관리까지 함께</b> 봅니다.</p>
   </div>
 
   <div class="callout">
     <div class="tag">ONE LINE</div>
-    <p>MPS가 하는 일은 <b>“근거 없는 불안”을 “유럽식 데이터 기반 안심”으로</b> 바꾸는 것입니다.
-    부모님께는 기다림의 근거를, 아이에게는 자기만의 속도로 자랄 시간을 드립니다.</p>
-    <p>2026년 8월 현재 <b>50여개 팀, 850명이상의 선수</b> 가 MPS와 함께하며 대한민국 축구를 가꾸는 중입니다. 
+    <p>MPS가 하는 일은 <b>코칭스태프의 ‘감(feel)’을 데이터로 뒷받침하는 것</b>입니다.
+    선발과 훈련 강도 결정에 설명 가능한 근거를 더하고, 선수와 학부모 모두를 설득할 수 있는 언어를 드립니다.</p>
+    <p style="margin-top:8px;">2026년 8월 현재 <b>50여개 팀, 850명이상의 선수</b>가 MPS와 함께 훈련하며 대한민국 축구를 가꾸는 중입니다.</p>
   </div>
 </section>
 
@@ -369,8 +425,10 @@
   <div class="kicker">OVERVIEW · MPS 한눈에 보기</div>
   <h2>MPS = 마음 · 몸 · 성장 시계<span class="en">Mental · Physical &amp; Risk · Stage of Growth</span></h2>
   <p class="lead">
-    MPS는 아이 한 명을 <b>세 가지 창</b>으로 들여다보는 통합 검사입니다.
-    한 번의 검사로 세가지 통합 리포트를 받으시게 되고, 이를 <b>‘Player’s Passport(선수 여권)’</b>라고 부릅니다.
+    MPS는 선수 한 명을 <b>세 가지 창</b>으로 들여다보는 통합 검사입니다.
+    한 번의 검사로 세 가지 통합 리포트를 받으시게 되고, 이를 <b>‘Player’s Passport(선수 여권)’</b>라 부릅니다.
+    선수 개인의 Player’s Passport와 별도로, 선수단 전체는 <b>팀 대시보드</b>에서 나란히 비교하며
+    <b>훈련계획과 선발 회의 자료</b>로 활용하실 수 있습니다 (아래에서 자세히 안내드립니다).
   </p>
 
   <div class="card">
@@ -378,7 +436,7 @@
       <div class="letter lm">M</div>
       <div><h3 style="margin:0;">Mental · 멘탈</h3><span class="badge b-blue">M-리포트</span></div>
     </div>
-    <p style="margin-top:10px;">경기긴장도, 실수 후 회복력, 집중력처럼 <b>경기력에 직접 영향을 주는 마음의 힘</b>을 전문화된 심리평가 들로 살펴봅니다. 유럽에서 검증된 스포츠심리검사(회차별 상이)등을 바탕으로 합니다.</p>
+    <p style="margin-top:10px;">경기긴장도, 실수 후 회복력, 집중력처럼 <b>경기력에 직접 영향을 주는 마음의 힘</b>을 전문화된 심리평가로 살펴봅니다. 유럽에서 검증된 스포츠심리검사(회차별 상이)를 바탕으로 하며, <b>주전 배치와 경기 중 코칭 대화</b>에 바로 활용하실 수 있습니다.</p>
   </div>
 
   <div class="card">
@@ -386,7 +444,7 @@
       <div class="letter lp">P</div>
       <div><h3 style="margin:0;">Physical &amp; Risk · 피지컬</h3><span class="badge b-red">P-리포트</span></div>
     </div>
-    <p style="margin-top:10px;">심박변이도(HRV), 체성분, 세포수분, 관절·힘줄 초음파로 <b>눈에 보이지 않는 누적 피로와 부상관련지표</b>를 미리 찾습니다. 아프기 전에 신호를 잡는 것이 목표입니다.</p>
+    <p style="margin-top:10px;">심박변이도(HRV), 체성분, 세포수분, 관절·힘줄 초음파로 <b>눈에 보이지 않는 누적 피로와 부상관련지표</b>를 미리 찾습니다. <b>오늘 훈련 강도를 정하는 기준</b>이 됩니다.</p>
   </div>
 
   <div class="card">
@@ -394,7 +452,7 @@
       <div class="letter ls">S</div>
       <div><h3 style="margin:0;">Stage of Growth · 성장단계</h3><span class="badge b-green">S-리포트</span></div>
     </div>
-    <p style="margin-top:10px;">골연령(뼈 나이)과 체성분, 성장속도 데이터로 <b>지금이 급성장의 어느 단계인지</b> 확인하고, 성장 과정를 예측하며, 적합한 관리 방향을 안내드립니다.</p>
+    <p style="margin-top:10px;">골연령(뼈 나이)과 체성분, 성장속도 데이터로 <b>지금이 급성장의 어느 단계인지</b> 확인합니다. <b>포지션·훈련그룹 배정, 선발 판단</b>의 참고자료로 활용하실 수 있습니다.</p>
   </div>
 
   <div class="card tint">
@@ -408,10 +466,196 @@
   </div>
 
   <div class="qa">
-    <div class="q">Q. 이건 병원 진단서인가요?</div>
-    <div class="a">아니요. MPS 리포트는 <b>의료적 진단을 대체하지 않는 스포츠 데이터 안내 자료</b>입니다.
-    검사는 제휴 의료기관이 수행하고, 최종 의학적 판단은 반드시 의료진이 합니다.
+    <div class="q">Q. 이 리포트로 선수를 선발하거나 제외해도 되나요?</div>
+    <div class="a">MPS 리포트는 <b>선발·기용을 대신 결정해주는 도구가 아니라, 지도자의 판단을 뒷받침하는 보조 자료</b>입니다.
+    최종 선발과 기용은 지도자의 몫이며, 검사는 제휴 의료기관이 수행하고 의학적 판단은 반드시 의료진이 합니다.
     걱정되는 부분이 있으시다면 제휴 의료기관의 진료를 받아보시길 권합니다.</div>
+  </div>
+</section>
+
+<!-- ========== DASHBOARD ========== -->
+<section id="dashboard">
+  <div class="kicker" style="color:var(--brand-tan);">DASHBOARD · 팀 전체를 한눈에</div>
+  <h2>선수단 전체를 한 화면에서 관리합니다<span class="en">MPS PRO 팀 대시보드 살펴보기</span></h2>
+  <p class="lead">
+    Player’s Passport가 <b>선수 개인의 리포트</b>라면, 팀 대시보드는 <b>코칭스태프가 매일 여는 선수단 전체 화면</b>입니다.
+    로그인 후 학년(출생연도)별로 선수단을 선택하면, 4가지 탭으로 팀 상태를 확인하실 수 있습니다.
+  </p>
+
+  <div class="card tint">
+    <h3>선수단은 이렇게 선택합니다</h3>
+    <p>로그인하면 가장 먼저 <b>출생연도별 선수단 목록</b>이 보입니다. 팀에 여러 학년이 함께 있어도
+    U11, U12처럼 <b>또래 기준으로 나뉜 그룹</b>을 골라 들어가시면 됩니다. 그룹을 선택하면 해당 선수단의 최신 리포트가 자동으로 표시됩니다.</p>
+  </div>
+
+  <div class="card" style="border-top:4px solid var(--brand-tan);">
+    <h3>① 선수단 상태 요약</h3>
+    <p>대시보드에 들어가면 가장 먼저 보이는 화면입니다. <b>팀 종합 컨디션 점수</b>(예: 100점 만점 중 60점대)와
+    함께 “부상 위험군의 선수들이 많습니다. 세심한 라인업 설정과 훈련강도 조절이 필요해요”처럼
+    <b>오늘 팀 상태를 한 문장으로 요약</b>해드립니다. 그 아래로 급성장 관리군·팀 멘탈 평균·피로·부상 위험 관리군 인원수가 카드로 나옵니다.</p>
+
+    <div class="mockwrap">
+      <div class="mockbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="u">예시 화면 · 가상 데이터</span></div>
+      <div class="mockscreen">
+        <div class="mocktabs">
+          <div class="mocktab on">선수단 상태 요약</div>
+          <div class="mocktab">피지컬 컨디션</div>
+          <div class="mocktab">성장 단계</div>
+          <div class="mocktab">선수단 멘탈</div>
+        </div>
+        <div class="mock-h">팀 종합 컨디션</div>
+        <div class="mockscore">62.4<span style="font-size:13px; font-weight:600; color:#8A8A90;"> 점</span></div>
+        <div class="mockcomment">부상 위험군의 선수들이 많습니다.<br>세심한 라인업 설정과 훈련강도 조절이 필요해요.</div>
+        <div class="mockstats">
+          <div class="mockstat"><div class="n" style="color:var(--brand-tan);">6명</div><div class="l">급성장 관리군</div></div>
+          <div class="mockstat"><div class="n" style="color:#B0AAFB;">4.6</div><div class="l">팀 멘탈 평균</div></div>
+          <div class="mockstat"><div class="n" style="color:var(--m-blue);">9명</div><div class="l">피로·부상 위험 관리군</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="mocklabel">▲ 팀 대시보드 예시 화면 (실제 데이터가 아닌 가상 예시입니다)</div>
+  </div>
+
+  <div class="card tint">
+    <h3>선수 활용 지도 — 라인업 고민의 출발점</h3>
+    <p style="margin-bottom:12px;">가로축은 <b>성장 완성도</b>, 세로축은 <b>경기 투입 양호도</b>입니다. 선수단 전체가 4분면 위에 점으로 흩뿌려지고,
+    <b>이름을 누르면 그 선수의 상세 리포트로 바로 이동</b>합니다.</p>
+
+    <div class="mockwrap">
+      <div class="mockbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="u">예시 화면 · 가상 데이터</span></div>
+      <div class="mockscreen">
+        <div class="mock-h" style="margin-bottom:10px;">선수 활용 지도</div>
+        <div class="mockmap">
+          <div class="mockquad-label" style="top:8px; left:8px; background:var(--s-green); color:#fff;">즉시전력</div>
+          <div class="mockquad-label" style="top:8px; right:8px; background:var(--m-blue); color:#fff;">핵심전력</div>
+          <div class="mockquad-label" style="bottom:8px; left:8px; background:var(--brand-tan); color:#101012;">장기육성군</div>
+          <div class="mockquad-label" style="bottom:8px; right:8px; background:#FC582B; color:#fff;">컨디션관리군</div>
+          <div class="mockdot" style="left:20%; top:28%; background:var(--s-green);"><span>A</span></div>
+          <div class="mockdot" style="left:33%; top:42%; background:var(--brand-tan);"><span>B</span></div>
+          <div class="mockdot" style="left:70%; top:32%; background:var(--m-blue);"><span>C</span></div>
+          <div class="mockdot" style="left:80%; top:72%; background:#FC582B;"><span>D</span></div>
+          <div class="mockdot" style="left:46%; top:76%; background:var(--brand-tan);"><span>E</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="mocklabel">▲ 이름을 누르면 해당 선수 상세로 이동합니다 (A~E는 예시 라벨입니다)</div>
+
+    <div class="quadgrid" style="margin-top:16px;">
+      <div class="quad" style="background:var(--m-bg);">
+        <div class="t" style="color:var(--m-blue);">핵심전력</div>
+        <div class="d">성장도 컨디션도 준비된 선수 — 지금 바로 활용도가 높은 그룹</div>
+      </div>
+      <div class="quad" style="background:var(--s-bg);">
+        <div class="t" style="color:var(--s-green);">즉시전력</div>
+        <div class="d">성장 여지는 남았지만 컨디션이 좋아 바로 투입 가능한 선수</div>
+      </div>
+      <div class="quad" style="background:#F8E1DB;">
+        <div class="t" style="color:var(--red);">컨디션 관리군</div>
+        <div class="d">성장은 앞서 있지만 피로·부상 신호가 있어 관리가 필요한 선수</div>
+      </div>
+      <div class="quad" style="background:var(--brand-tan-bg);">
+        <div class="t" style="color:var(--brand-tan);">장기 육성군</div>
+        <div class="d">아직 성장 초기 단계 — 장기적 관점의 투자와 인내가 필요한 선수</div>
+      </div>
+    </div>
+    <p style="font-size:13px; color:var(--sub); margin-top:12px;">그 아래로는 <b>휴식 검토가 필요한 선수</b>, <b>경기 투입을 추천할 만한 선수</b>, <b>성장 여력이 큰 선수</b> 각 TOP 3가 자동으로 정리되어 나옵니다 — 라인업 회의 전에 훑어보기 좋은 요약입니다.</p>
+  </div>
+
+  <div class="card">
+    <h3>② 피지컬 컨디션</h3>
+    <p>선수 전원의 <b>전신 회복력(REC) 점수</b>가 카드 그리드로 나열됩니다. 점수 높은 순으로 정렬해 보면
+    <b>이번 주 훈련 강도를 누구에게 맞출지</b> 빠르게 감이 옵니다. 개별 선수 카드를 누르면 P-리포트 상세로 이동합니다.</p>
+
+    <div class="mockwrap">
+      <div class="mockbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="u">예시 화면 · 가상 데이터</span></div>
+      <div class="mockscreen">
+        <div class="mock-h" style="margin-bottom:10px;">전신 회복력(REC) · 점수 높은 순</div>
+        <div class="mockgrid4">
+          <div class="mockcard"><div class="l">선수 A</div><div class="n">84.0점</div><div class="bar"><i style="width:84%; background:var(--m-blue);"></i></div></div>
+          <div class="mockcard"><div class="l">선수 B</div><div class="n">77.0점</div><div class="bar"><i style="width:77%; background:var(--m-blue);"></i></div></div>
+          <div class="mockcard"><div class="l">선수 C</div><div class="n">68.0점</div><div class="bar"><i style="width:68%; background:var(--s-green);"></i></div></div>
+          <div class="mockcard"><div class="l">선수 D</div><div class="n">41.0점</div><div class="bar"><i style="width:41%; background:#FC582B;"></i></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="mocklabel">▲ 예시 화면 (실제 데이터가 아닌 가상 예시입니다)</div>
+  </div>
+
+  <div class="card">
+    <h3>③ 성장 단계</h3>
+    <p>선수별 <b>뼈나이·실제나이 차이, 예상 키, 남은 성장 키(cm)</b>가 한 줄씩 리스트로 정리됩니다.
+    “남은 키 많은 순”으로 정렬하면 <b>지금 작아도 앞으로 크게 자랄 선수들</b>이 한눈에 보입니다 — 조기 배제를 막는 가장 실용적인 화면입니다.</p>
+
+    <div class="mockwrap">
+      <div class="mockbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="u">예시 화면 · 가상 데이터</span></div>
+      <div class="mockscreen">
+        <div class="mock-h" style="margin-bottom:10px;">성장 단계 · 남은 키 많은 순</div>
+        <div class="mockrows">
+          <div class="mockrow"><div class="nm">선수 A</div><div class="mid">뼈나이 9년 6개월 · 준비기</div><div class="rt">남은 키 35.9cm</div></div>
+          <div class="mockrow"><div class="nm">선수 B</div><div class="mid">뼈나이 10년 6개월 · 준비기</div><div class="rt">남은 키 34.5cm</div></div>
+          <div class="mockrow"><div class="nm">선수 C</div><div class="mid">뼈나이 11년 9개월 · 가속기</div><div class="rt">남은 키 30.4cm</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="mocklabel">▲ 예시 화면 (실제 데이터가 아닌 가상 예시입니다)</div>
+  </div>
+
+  <div class="card">
+    <h3>④ 선수단 멘탈</h3>
+    <p><b>우리 팀 평균 레이더차트</b>와 <b>전국 팀 평균 레이더차트</b>를 나란히 비교할 수 있습니다.
+    우리 팀이 유독 낮은 지표가 있다면(예: 수행 불안, 자기조절) 그 지표를 <b>팀 훈련 루틴에 반영</b>할 근거가 됩니다.
+    아래에는 선수별 멘탈 점수(긴장 관리·경기 준비·실수 털기·집중 유지·총점)가 표로 정리되어 있습니다.</p>
+
+    <div class="mockwrap">
+      <div class="mockbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="u">예시 화면 · 가상 데이터</span></div>
+      <div class="mockscreen">
+        <div class="mock-h" style="margin-bottom:10px;">5대 핵심 지표 비교</div>
+        <div class="mockradar2">
+          <div>
+            <svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="100,25 161.75,69.85 138.35,142.65 61.65,142.65 38.25,69.85" fill="none" stroke="#2C2C30" stroke-width="1"/>
+              <polygon points="100,34.75 146.31,74.89 124.94,124.22 78.90,118.97 56.77,75.90" fill="rgba(121,155,244,0.30)" stroke="#799BF4" stroke-width="2"/>
+            </svg>
+            <div class="cap">우리 팀</div>
+          </div>
+          <div>
+            <svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="100,25 161.75,69.85 138.35,142.65 61.65,142.65 38.25,69.85" fill="none" stroke="#2C2C30" stroke-width="1"/>
+              <polygon points="100,57.5 130.88,79.93 119.18,116.33 80.83,116.33 69.13,79.93" fill="rgba(255,255,255,0.10)" stroke="#8A8A90" stroke-width="2"/>
+            </svg>
+            <div class="cap">전국 팀 평균</div>
+          </div>
+        </div>
+        <table class="mocktable">
+          <tr><th>선수</th><th>긴장관리</th><th>경기준비</th><th>실수털기</th><th>총점</th></tr>
+          <tr><td>선수 A</td><td>85</td><td>92</td><td>78</td><td>88</td></tr>
+          <tr><td>선수 B</td><td>79</td><td>74</td><td>69</td><td>75</td></tr>
+          <tr><td>선수 C</td><td>66</td><td>70</td><td>72</td><td>69</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="mocklabel">▲ 예시 화면 (실제 데이터가 아닌 가상 예시입니다)</div>
+  </div>
+
+  <div class="card tint">
+    <h3>이름을 누르면 — 선수 개인 상세 화면</h3>
+    <p>대시보드 어디서든 선수 이름을 누르면 <b>그 선수만의 상세 화면</b>으로 이동합니다.
+    뼈나이·예상 키·남은 키는 물론, <b>무릎·발목·발바닥 부상위험도(좌우 각각)</b>와 <b>멘탈 5대 핵심지표 + 경기 관련·훈련 적응 관련 세부지표</b>까지
+    한 화면에서 확인할 수 있고, 맨 아래 <b>“관리 방향”</b> 버튼을 누르면 그 선수에게 필요한 구체적 가이드로 이어집니다.
+    앞서 보신 M·P·S 리포트 내용이 이 화면 안에 그대로 들어 있다고 보시면 됩니다.</p>
+  </div>
+
+  <div class="callout">
+    <div class="tag">이렇게 활용해 보세요</div>
+    <p>월요일 아침 <b>“선수단 상태 요약”</b>으로 주말 경기 이후 팀 컨디션을 확인하고,
+    <b>“선수 활용 지도”</b>로 이번 주 라인업 회의 자료를 준비하고,
+    <b>“성장 단계”</b> 정렬로 장기 육성이 필요한 선수를 놓치지 않는 것 — 이 세 가지만 루틴화해도 훈련계획에 근거가 생깁니다.</p>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q. 선수 활용 지도의 4분면이 곧 선발 순위인가요?</div>
+    <div class="a">아니요. <b>참고 자료일 뿐 순위표가 아닙니다.</b> 같은 “컨디션 관리군”이라도 이유는 선수마다 다르고,
+    전술적 판단·팀 상황은 데이터에 담기지 않습니다. 최종 라인업과 기용은 언제나 <b>지도자의 몫</b>입니다.</div>
   </div>
 </section>
 
@@ -421,45 +665,49 @@
   <h2>마음에도 체력이 있습니다<span class="en">M-리포트에서 보시게 될 것</span></h2>
   <p class="lead">
     “멘탈이 강하다”는 말은 사실 여러 능력의 묶음입니다. M-리포트는 이것을 <b>5개의 핵심 지수</b>로 나눠
-    각 6점 만점으로 보여드립니다. “우리 아이는 어디가 강하고, 어디를 도와주면 되는지”가 한눈에 보입니다. (멘탈 검사는 시행 회차별로 상이합니다)
+    각 6점 만점으로 보여드립니다. “이 선수는 어디가 강하고, 어디를 도와주면 되는지”가 한눈에 보입니다. (멘탈 검사는 시행 회차별로 상이합니다)
   </p>
 
   <!-- ▼▼▼ 사진 자리 ① · 멘탈 검사 현장 2장 ▼▼▼ -->
   <div class="photos-title">📷 멘탈 검사 현장</div>
   <div class="photos">
-    <!-- 사진 넣는 법: 아래 주석의 <img> 한 줄만 살리고 그 위 3줄(ph-ico/ph-t/ph-f)을 지우세요.
-         그리고 이 div의 class를 "photo filled" 로 바꾸면 여백 없이 꽉 찹니다. -->
-    <div class="photo filled">
-     <img src="images/mental-04.jpg" alt="멘탈 검사 - 선수 설문 진행">
-    </div>  
-    <div class="photo filled">
-     <img src="images/mental-02.jpg" alt="멘탈 검사 - 선수 설문 진행">
+    <!-- 사진 넣는 법: 아래 ph-ico/ph-t/ph-f 대신 <img src="images/파일명.jpg"> 한 줄을 넣고
+         div의 class를 "photo filled" 로 바꾸면 여백 없이 꽉 찹니다. -->
+    <div class="photo">
+      <div class="ph-ico">📷</div>
+      <div class="ph-t">멘탈 검사 현장 사진</div>
+      <div class="ph-f">images/coach-mental-01.jpg</div>
+    </div>
+    <div class="photo">
+      <div class="ph-ico">📷</div>
+      <div class="ph-t">멘탈 검사 현장 사진</div>
+      <div class="ph-f">images/coach-mental-02.jpg</div>
     </div>
   </div>
-  <div class="photo-cap">▲ 조용한 공간에서 아이가 편하게 답할 수 있도록 진행합니다. 유럽과 마찬가지로 MPS도 전담멘탈코치와 함께 진행합니다. </div>
+  <div class="photo-cap">▲ 조용한 공간에서 선수가 편하게 답할 수 있도록 진행합니다. 유럽과 마찬가지로 MPS도 전담멘탈코치와 함께 진행합니다.</div>
   <!-- ▲▲▲ 사진 자리 ① 끝 ▲▲▲ -->
 
   <div class="chartbox">
     <svg viewBox="0 0 350 295" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="5대 핵심 멘탈지수 레이더 차트">
       <g transform="translate(175,150)">
-        <g fill="none" stroke="#E3E9F2" stroke-width="1">
+        <g fill="none" stroke="#E4E4E4" stroke-width="1">
           <polygon points="0,-100 95,-31 59,81 -59,81 -95,-31"/>
           <polygon points="0,-75 71,-23 44,61 -44,61 -71,-23"/>
           <polygon points="0,-50 48,-15 29,40 -29,40 -48,-15"/>
           <polygon points="0,-25 24,-8 15,20 -15,20 -24,-8"/>
         </g>
-        <g stroke="#E3E9F2" stroke-width="1">
+        <g stroke="#E4E4E4" stroke-width="1">
           <line x1="0" y1="0" x2="0" y2="-100"/><line x1="0" y1="0" x2="95" y2="-31"/>
           <line x1="0" y1="0" x2="59" y2="81"/><line x1="0" y1="0" x2="-59" y2="81"/>
           <line x1="0" y1="0" x2="-95" y2="-31"/>
         </g>
         <polygon points="0,-60 95,-31 34.4,47.2 -26.6,36.4 -39.6,-12.9"
-                 fill="rgba(47,111,237,0.18)" stroke="#2F6FED" stroke-width="2.5" stroke-linejoin="round"/>
-        <g fill="#2F6FED">
+                 fill="rgba(121,155,244,0.22)" stroke="#799BF4" stroke-width="2.5" stroke-linejoin="round"/>
+        <g fill="#799BF4">
           <circle cx="0" cy="-60" r="4"/><circle cx="95" cy="-31" r="4"/><circle cx="34.4" cy="47.2" r="4"/>
           <circle cx="-26.6" cy="36.4" r="4"/><circle cx="-39.6" cy="-12.9" r="4"/>
         </g>
-        <g font-size="11.5" font-weight="700" fill="#26324B" text-anchor="middle">
+        <g font-size="11.5" font-weight="700" fill="#1A1A1A" text-anchor="middle">
           <text x="0" y="-115">경기긴장도 3.6</text>
           <text x="122" y="-42">사회적 도움</text><text x="122" y="-28">활용 6.0</text>
           <text x="72" y="104">경기 준비 3.5</text>
@@ -475,7 +723,7 @@
     <h3>5대 지수, 쉽게 말하면</h3>
     <div class="deflist">
       <div class="row"><div class="k">경기긴장도</div><div class="v">압박 속에서도 마음을 정리하고 플레이를 이어가는 힘</div></div>
-      <div class="row"><div class="k">사회적 도움 활용</div><div class="v">힘들 때 코치·부모·친구에게 도움을 잘 구하는 능력</div></div>
+      <div class="row"><div class="k">사회적 도움 활용</div><div class="v">힘들 때 코치·부모·동료에게 도움을 잘 구하는 능력</div></div>
       <div class="row"><div class="k">경기 준비 능력</div><div class="v">목표 세우기, 이미지 트레이닝 등 경기 전 준비의 질</div></div>
       <div class="row"><div class="k">실수 후 회복력</div><div class="v">실수에 오래 머물지 않고 다시 경기로 돌아오는 힘</div></div>
       <div class="row"><div class="k">자기 통제력</div><div class="v">감정이 흔들릴 때 해야 할 것에 다시 집중하는 힘</div></div>
@@ -490,55 +738,55 @@
 
   <div class="callout">
     <div class="tag">꼭 기억해 주세요</div>
-    <p>멘탈 점수는 <b>아이의 성격 판정표가 아닙니다.</b> 아이를 평가하는 고정된 값이 아니라,
-    “지금 어떤 도움이 필요한가”를 알려주는 <b>상세 지도</b>입니다. 점수가 낮다고 부족한 아이가 결코 아닙니다.</p>
+    <p>멘탈 점수는 <b>선수의 성격 판정표도, 벤치로 내리는 근거도 아닙니다.</b> 선수를 평가하는 고정된 값이 아니라,
+    “지금 어떤 도움이 필요한가”를 알려주는 <b>상세 지도</b>입니다. 점수가 낮다고 부족한 선수가 결코 아닙니다.</p>
   </div>
 
-  <h3 style="font-size:19px; font-weight:800; color:var(--navy); margin-top:28px;">아이에게 건네는 한 문장이 남습니다</h3>
+  <h3 style="font-size:19px; font-weight:800; color:var(--navy); margin-top:28px;">코칭 언어와 기용 판단에 반영합니다</h3>
   <p class="body">M-리포트의 절반은 숫자, 절반은 <b>언어</b>입니다. 저희가 드리고 싶은 것은 점수가 아니라,
-  그 점수를 <b>부모님이 아이에게 건넬 좋은 말로 바꾼 결과</b>입니다.</p>
+  그 점수를 <b>선수에게 건넬 좋은 코칭 언어와 훈련 반영 지점으로 바꾼 결과</b>입니다.</p>
 
   <div class="card" style="border-top:4px solid var(--m-blue);">
     <h3>① 강점부터 봐주세요</h3>
     <span class="badge b-blue">예시 · 사회적 도움 활용 6.0 · 강점</span>
-    <p style="margin-top:8px;">가장 높은 점수를 먼저 짚어 “이건 네 큰 자산이야”라고 말해 주세요. 강점을 훈련 루틴과 연결하면 장기적으로 더 큰 무기가 됩니다.</p>
+    <p style="margin-top:8px;">가장 높은 점수를 먼저 짚어 “이건 네 큰 무기”라고 말해 주세요. 전술 배치와 세트피스 리더 등 강점을 실전 역할과 연결하면 장기적으로 더 큰 무기가 됩니다.</p>
   </div>
   <div class="card" style="border-top:4px solid var(--amber);">
-    <h3>② 낮은 점수는 ‘도와줄 곳’입니다</h3>
+    <h3>② 낮은 점수는 ‘훈련에 반영할 곳’입니다</h3>
     <span class="badge b-amber">예시 · 실수 후 회복력 2.5 · 보완 필요</span>
-    <p style="margin-top:8px;">“부족하다”가 아니라 <b>“따뜻한 응원과 멘탈 훈련이 필요한 영역”</b>으로 읽어주세요. 집에서 해볼 수 있는 방법도 함께 제시됩니다.</p>
+    <p style="margin-top:8px;">“기용 배제 사유”가 아니라 <b>“멘탈 훈련과 코칭 언어가 필요한 영역”</b>으로 읽어주세요. 훈련장에서 바로 적용할 수 있는 방법도 함께 제시됩니다.</p>
   </div>
 
   <div class="card" style="background:var(--s-bg); border:none;">
     <h3 style="color:var(--s-green);">💬 이렇게 말해 주세요</h3>
     <ul class="clean ds">
-      <li>“오늘 제일 잘된 장면 하나만 같이 떠올려 보자.”</li>
+      <li>“오늘 제일 잘된 장면 하나만 같이 짚어보자.”</li>
       <li>“실수보다 그 다음 플레이가 더 중요해.”</li>
-      <li>“회복력은 연습으로 좋아져. 하나씩 배워가보자.”</li>
+      <li>“회복력은 훈련으로 좋아져. 하나씩 배워가보자.”</li>
     </ul>
   </div>
   <div class="card" style="background:var(--p-bg); border:none;">
     <h3 style="color:var(--p-red);">🚫 이런 반응은 줄여 주세요</h3>
     <ul class="clean dp">
       <li>“왜 그것도 못 했어?”</li>
-      <li>“다른 애들은 다 하던데?”</li>
+      <li>“쟤는 벌써 하는데 너는?”</li>
       <li>“네가 멘탈이 약해서 그래.”</li>
     </ul>
   </div>
 
   <div class="card tint">
-    <h3>🏠 집에서 해볼 수 있는 루틴을 알려드려요</h3>
+    <h3>🏟️ 훈련장에서 적용할 수 있는 루틴을 알려드려요</h3>
     <ul class="clean dm">
-      <li><b>3분 대화</b> — ...</li>
-      <li><b>10초 심상 훈련</b> — XXX</li>
-      <li><b>회복 키워드</b> — “XXX”, 같은 짧은 말을 아이와 함께 정하기</li>
+      <li><b>3분 체크인</b> — 훈련 시작 전 오늘 컨디션과 목표를 한마디씩 나누기</li>
+      <li><b>10초 심상 훈련</b> — 세트피스·PK 전 짧은 이미지 트레이닝 루틴 만들기</li>
+      <li><b>회복 키워드</b> — 실수 뒤 스스로 되뇔 짧은 말을 선수와 함께 정하기</li>
     </ul>
   </div>
 
   <div class="qa">
-    <div class="q">Q. 결과가 낮게 나오면 아이에게 보여줘도 되나요?</div>
-    <div class="a">보여주셔도 됩니다. 다만 점수를 먼저 말하기보다 <b>“이건 잘하고 있대”, “여기는 같이 연습해보자”</b>의 순서로 읽어주세요.
-    성장발달은 몸과 마음이 함께 변화하는 시기입니다. 측정평가를 해보면 매번 강점과 약점이 바뀌는 부분이 있는 경우가 많습니다. MPS는 아이의 마음을 강화시키기 위한 나침반입니다. </div>
+    <div class="q">Q. 결과가 낮게 나오면 선수에게 보여줘도 되나요?</div>
+    <div class="a">보여주셔도 됩니다. 다만 점수를 먼저 말하기보다 <b>“이건 잘하고 있대”, “여기는 같이 훈련해보자”</b>의 순서로 읽어주세요.
+    성장발달기는 몸과 마음이 함께 변화하는 시기라 측정평가마다 강점과 약점이 바뀌는 경우가 많습니다. MPS는 선수의 마음을 강화시키기 위한 나침반입니다.</div>
   </div>
 </section>
 
@@ -547,26 +795,30 @@
   <div class="kicker" style="color:var(--p-red);">P · PHYSICAL &amp; RISK</div>
   <h2>아프기 전에 신호를 잡습니다<span class="en">P-리포트에서 보시게 될 것</span></h2>
   <p class="lead">
-    성장기 아이의 부상은 어느 날 갑자기 오지 않습니다. <b>피로가 조용히 쌓이다가</b> 터집니다.
-    P-리포트는 세 가지 방법으로 그 조용한 신호를 미리 찾습니다.
+    성장기 선수의 부상은 어느 날 갑자기 오지 않습니다. <b>피로가 조용히 쌓이다가</b> 터집니다.
+    P-리포트는 세 가지 방법으로 그 조용한 신호를 미리 찾아, <b>오늘 훈련 강도와 출전 여부 결정</b>에 반영하실 수 있게 합니다.
   </p>
 
   <!-- ▼▼▼ 사진 자리 ② · 피지컬 측정 현장 2장 ▼▼▼ -->
   <div class="photos-title">📷 피지컬 측정 현장</div>
   <div class="photos">
-    <div class="photo filled">
-     <img src="images/physical-01.jpg" alt="피지컬 측정 현장 - 선수 측정평가 진행">
+    <div class="photo">
+      <div class="ph-ico">📷</div>
+      <div class="ph-t">피지컬 측정 현장 사진</div>
+      <div class="ph-f">images/coach-physical-01.jpg</div>
     </div>
-    <div class="photo filled">
-     <img src="images/physical-02.JPG" alt="피지컬 측정 현장 - 선수 측정평가 진행">
+    <div class="photo">
+      <div class="ph-ico">📷</div>
+      <div class="ph-t">피지컬 측정 현장 사진</div>
+      <div class="ph-f">images/coach-physical-02.jpg</div>
     </div>
   </div>
-  <div class="photo-cap">▲ 아프지 않은 검사입니다. 미국 NBA, NFL에서 활용되는 부상지표 전문측정장비를 활용해 아이가 편하게 받습니다.</div>
+  <div class="photo-cap">▲ 아프지 않은 검사입니다. 미국 NBA, NFL에서 활용되는 부상지표 전문측정장비를 활용해 선수가 편하게 받습니다.</div>
   <!-- ▲▲▲ 사진 자리 ② 끝 ▲▲▲ -->
 
   <div class="card">
     <h3 style="color:var(--p-red);">① HRV · 심박변이도</h3>
-    <p>심장 박동의 미세한 리듬으로 <b>아이 몸의 배터리 상태</b>를 봅니다.<br>
+    <p>심장 박동의 미세한 리듬으로 <b>선수 몸의 배터리 상태</b>를 봅니다.<br>
     <b>SDNN(만성 탄력성)</b> = 배터리 용량. 기초 체력과 피로를 견디는 힘.<br>
     <b>RMSSD(급성 회복력)</b> = 충전 속도. 어제 훈련의 피로가 오늘 얼마나 풀렸는가.</p>
   </div>
@@ -579,41 +831,41 @@
   <div class="card">
     <h3 style="color:var(--p-red);">③ 초음파</h3>
     <p>유소년 축구선수가 가장 자주 다치는 세 부위 — <b>무릎(슬개건) · 아킬레스건 · 발바닥(족저근막)</b> —
-    를 좌우 각각 직접 봅니다. 제휴의료기관의 스포츠팀닥터가 아이가 “아프다”고 말하기 전 긴장 흔적까지 확인합니다.</p>
+    를 좌우 각각 직접 봅니다. 제휴의료기관의 스포츠팀닥터가 선수가 “아프다”고 말하기 전 긴장 흔적까지 확인합니다.</p>
   </div>
 
   <div class="card tint">
-    <h3>결과는 신호등 3색으로</h3>
+    <h3>결과는 신호등 3색으로 · 훈련강도 결정에 바로 활용</h3>
     <div class="lights">
-      <div class="light"><span class="badge b-green">🟢 양호</span><div class="d">지금대로 유지</div></div>
-      <div class="light"><span class="badge b-amber">🟡 주의</span><div class="d">관리 시작<br>관찰 필요</div></div>
-      <div class="light"><span class="badge b-red">🔴 위험</span><div class="d">적극적인<br>치료 혹은 관리 필요</div></div>
+      <div class="light"><span class="badge b-green">🟢 양호</span><div class="d">계획대로 훈련</div></div>
+      <div class="light"><span class="badge b-amber">🟡 주의</span><div class="d">강도 조절<br>모니터링 필요</div></div>
+      <div class="light"><span class="badge b-red">🔴 위험</span><div class="d">훈련 제한 및<br>의료진 상담 필요</div></div>
     </div>
-    <p style="font-size:14px; color:var(--sub); margin-top:12px;">신호등 색만 보고 아이의 상태를 이해할 수 있게 만들었습니다.</p>
+    <p style="font-size:14px; color:var(--sub); margin-top:12px;">신호등 색만 보고도 선수의 상태와 오늘 훈련 계획을 빠르게 조율할 수 있습니다.</p>
   </div>
 
-  <h3 style="font-size:19px; font-weight:800; color:var(--navy); margin-top:28px;">오늘 훈련을 해도 되는 몸인가</h3>
+  <h3 style="font-size:19px; font-weight:800; color:var(--navy); margin-top:28px;">오늘 훈련을 시켜도 되는 몸인가</h3>
   <p class="body">배터리 용량(SDNN)과 충전 속도(RMSSD)를 <b>가로·세로축에 놓고 교차</b>하면,
-  아이가 지금 어떤 상태인지 네 개의 칸으로 나뉩니다.</p>
+  선수가 지금 어떤 상태인지 네 개의 칸으로 나뉩니다.</p>
 
   <div class="chartbox">
     <svg viewBox="0 0 320 265" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="자율신경 4사분면 차트">
-      <rect x="45" y="20" width="125" height="100" fill="#FEF6E4"/>
-      <rect x="170" y="20" width="125" height="100" fill="#E9F7F0"/>
-      <rect x="45" y="120" width="125" height="100" fill="#FDEDF0"/>
-      <rect x="170" y="120" width="125" height="100" fill="#F0F4FB"/>
-      <line x1="170" y1="20" x2="170" y2="220" stroke="#9AA7BC" stroke-width="1.5" stroke-dasharray="4 3"/>
-      <line x1="45" y1="120" x2="295" y2="120" stroke="#9AA7BC" stroke-width="1.5" stroke-dasharray="4 3"/>
-      <rect x="45" y="20" width="250" height="200" fill="none" stroke="#E3E9F2" stroke-width="1"/>
+      <rect x="45" y="20" width="125" height="100" fill="#F3F7CD"/>
+      <rect x="170" y="20" width="125" height="100" fill="#E8F9EC"/>
+      <rect x="45" y="120" width="125" height="100" fill="#E3E3FF"/>
+      <rect x="170" y="120" width="125" height="100" fill="#F6F6F5"/>
+      <line x1="170" y1="20" x2="170" y2="220" stroke="#A6A6A6" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <line x1="45" y1="120" x2="295" y2="120" stroke="#A6A6A6" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <rect x="45" y="20" width="250" height="200" fill="none" stroke="#E4E4E4" stroke-width="1"/>
       <g font-size="11.5" font-weight="700">
-        <text x="107" y="42" text-anchor="middle" fill="#B7791F">Q3 만성 피로</text>
-        <text x="232" y="42" text-anchor="middle" fill="#2FA36B">Q1 상위 컨디션</text>
-        <text x="107" y="208" text-anchor="middle" fill="#E4536B">Q4 체력 저하</text>
-        <text x="232" y="208" text-anchor="middle" fill="#5B6B85">Q2 일시 피로</text>
+        <text x="107" y="42" text-anchor="middle" fill="#8C8A2E">Q3 만성 피로</text>
+        <text x="232" y="42" text-anchor="middle" fill="#4DA969">Q1 상위 컨디션</text>
+        <text x="107" y="208" text-anchor="middle" fill="#A6A1FB">Q4 체력 저하</text>
+        <text x="232" y="208" text-anchor="middle" fill="#6E6E73">Q2 일시 피로</text>
       </g>
-      <circle cx="252" cy="70" r="6" fill="#1B2A5E"/>
-      <text x="252" y="58" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1B2A5E">예시 선수</text>
-      <g font-size="10.5" fill="#5B6B85">
+      <circle cx="252" cy="70" r="6" fill="#141414"/>
+      <text x="252" y="58" text-anchor="middle" font-size="10.5" font-weight="700" fill="#141414">예시 선수</text>
+      <g font-size="10.5" fill="#6E6E73">
         <text x="170" y="243" text-anchor="middle">SDNN (배터리 용량) →</text>
         <text x="22" y="120" text-anchor="middle" transform="rotate(-90 22 120)">RMSSD (충전 속도) →</text>
       </g>
@@ -622,10 +874,10 @@
 
   <div class="card">
     <div class="deflist">
-      <div class="row"><div class="k">Q1 상위 컨디션</div><div class="v">체력도 회복도 좋음. 고강도 훈련과 연속 경기도 무리 없는 상태.</div></div>
-      <div class="row"><div class="k">Q2 일시 피로</div><div class="v">기초 체력은 좋은데 어제의 피로가 남음. 하루 이틀 강도 조절.</div></div>
-      <div class="row"><div class="k">Q3 만성 피로</div><div class="v">회복은 되는데 기초 체력이 소진 중. 훈련량을 다시 볼 시기.</div></div>
-      <div class="row"><div class="k">Q4 체력 저하</div><div class="v">둘 다 낮음. 잘 자고 잘 먹는 회복이 무엇보다 먼저입니다.</div></div>
+      <div class="row"><div class="k">Q1 상위 컨디션</div><div class="v">체력도 회복도 좋음. 고강도 훈련과 연속 경기 출전도 무리 없는 상태.</div></div>
+      <div class="row"><div class="k">Q2 일시 피로</div><div class="v">기초 체력은 좋은데 어제의 피로가 남음. 하루 이틀 강도 조절 권장.</div></div>
+      <div class="row"><div class="k">Q3 만성 피로</div><div class="v">회복은 되는데 기초 체력이 소진 중. 이번 주 훈련량을 다시 볼 시기.</div></div>
+      <div class="row"><div class="k">Q4 체력 저하</div><div class="v">둘 다 낮음. 출전보다 잘 자고 잘 먹는 회복이 무엇보다 먼저입니다.</div></div>
     </div>
   </div>
 
@@ -638,109 +890,113 @@
       <span class="badge b-amber">오른쪽 무릎 주의</span>
     </p>
     <p style="margin-top:12px;">→ 읽는 법: <b>“지금 컨디션은 좋지만, 에너지 저장고가 비어 있고 무릎에 피로가 쌓이는 중.”</b></p>
-    <p style="margin-top:6px;">→ 집에서 하실 일: 식사량 늘리기 + 훈련 직후 10~15분 냉찜질 + 허벅지·종아리 마사지.</p>
+    <p style="margin-top:6px;">→ 팀에서 조치할 일: 이번 주 고강도 세션 1회 축소 + 무릎 부하 동작 모니터링 + 학부모 협조 요청(식사량 늘리기)·훈련 직후 냉찜질.</p>
   </div>
 
   <div class="callout">
-    <div class="tag">부모님이 자주 하시는 질문</div>
+    <div class="tag">지도자들이 자주 하시는 질문</div>
     <p><b>“수치가 높으면 무조건 좋은 거죠?”</b> — 그렇지 않습니다. RMSSD(회복력)가 비정상적으로 높으면(130ms 이상),
     체력이 좋아서가 아니라 <b>피로가 너무 쌓여 몸이 억지로 휴식 모드를 켠 상태</b>일 수 있습니다.</p>
   </div>
 
   <div class="qa">
-    <div class="q">Q. 어른 기준과 뭐가 다른가요?</div>
-    <div class="a">아이들은 뼈가 먼저 자라고 근육·인대가 나중에 따라옵니다. 특히 키가 훌쩍 크는 급성장기(PHV)에는
-    관절이 팽팽해져 부상에 훨씬 취약합니다. 그래서 P-리포트는 <b>성장 시기를 반영해 어른보다 훨씬 민감하게</b> 위험 신호를 잡습니다.</div>
+    <div class="q">Q. 성인 기준과 뭐가 다른가요?</div>
+    <div class="a">성장기 선수는 뼈가 먼저 자라고 근육·인대가 나중에 따라옵니다. 특히 키가 훌쩍 크는 급성장기(PHV)에는
+    관절이 팽팽해져 부상에 훨씬 취약합니다. 그래서 P-리포트는 <b>성장 시기를 반영해 성인보다 훨씬 민감하게</b> 위험 신호를 잡습니다. 성인 팀 기준의 훈련부하 프로토콜을 그대로 적용하시면 안 되는 이유입니다.</div>
   </div>
 </section>
 
 <!-- ========== S ========== -->
 <section id="stage" class="tinted">
   <div class="kicker" style="color:var(--s-green);">S · STAGE OF GROWTH</div>
-  <h2>“너의 진짜 나이는?”<span class="en">골연령과 성장단계 이해하기</span></h2>
+  <h2>“이 선수의 진짜 나이는?”<span class="en">골연령과 성장단계 이해하기</span></h2>
   <p class="lead">
-    주민등록 나이가 같아도 <b>몸의 나이(골연령)</b>는 아이마다 다릅니다.
-    골연령은 <b>뼈가 얼마나 성숙했는지</b>를 보는 값 — MPS의 슬로건 “너의 진짜 나이는?”이 바로 이것입니다.
+    주민등록 나이가 같아도 <b>몸의 나이(골연령)</b>는 선수마다 다릅니다.
+    골연령은 <b>뼈가 얼마나 성숙했는지</b>를 보는 값 — 선발과 훈련그룹 배정에서
+    체격만으로 판단하면 놓치게 되는 부분입니다.
   </p>
 
   <!-- ▼▼▼ 사진 자리 ③ · 성장 측정 현장 2장 ▼▼▼ -->
   <div class="photos-title">📷 성장 측정 현장</div>
   <div class="photos">
-    <div class="photo filled">
-     <img src="images/growth-01.jpg" alt="성장 검사 현장 - 신체 계측 진행">
+    <div class="photo">
+      <div class="ph-ico">📷</div>
+      <div class="ph-t">성장 측정 현장 사진</div>
+      <div class="ph-f">images/coach-growth-01.jpg</div>
     </div>
-    <div class="photo filled">
-     <img src="images/growth-02.jpg" alt="성장 검사 현장 - 신쳬 계측 진행">
+    <div class="photo">
+      <div class="ph-ico">📷</div>
+      <div class="ph-t">성장 측정 현장 사진</div>
+      <div class="ph-f">images/coach-growth-02.jpg</div>
     </div>
-    
   </div>
-  <div class="photo-cap">▲ 3개월 간격으로 같은 방식으로 성장판 검사와 측정평가를 다시 하기 때문에, 아이의 변화 속도를 비교해 보며 점차 정확하게 예측될 수 있습니다.</div>
+  <div class="photo-cap">▲ 3개월 간격으로 같은 방식으로 성장판 검사와 측정평가를 다시 하기 때문에, 선수의 변화 속도를 비교해 보며 점차 정확하게 예측될 수 있습니다.</div>
   <!-- ▲▲▲ 사진 자리 ③ 끝 ▲▲▲ -->
 
   <div class="card" style="border-top:4px solid var(--amber);">
-    <h3>골연령이 빠른 아이</h3>
+    <h3>골연령이 빠른 선수</h3>
     <p>지금 크거나 작더라도 단단하고 강합니다. 다만 그 우위의 일부는 실력이 아니라 <b>몸이 먼저 자란 덕분</b>일 수 있고,
-    성장판도 먼저 닫힐 수 있습니다. <b>“지금 잘함”이 “계속 잘함”을 보장하지 않는</b> 이유입니다.</p>
+    성장판도 먼저 닫힐 수 있습니다. <b>“지금 잘함”을 이유로 장기 주전 자리를 고정하면</b> 나중에 격차가 좁혀질 때 다른 선수의 성장 기회를 놓칠 수 있습니다.</p>
   </div>
   <div class="card" style="border-top:4px solid var(--s-green);">
-    <h3>골연령이 느린 아이</h3>
+    <h3>골연령이 느린 선수</h3>
     <p>지금은 작아 보여도 <b>나중에 더 클 여지가 남아 있습니다.</b>
-    뒤처진 것이 아니라 <b>성장 시계가 늦게 맞춰진 것</b>뿐입니다. 이 마라톤의 결승선은 중학교 1학년이 아닙니다.</p>
+    실력이 뒤처진 것이 아니라 <b>성장 시계가 늦게 맞춰진 것</b>뿐입니다. 이 마라톤의 결승선은 중학교 1학년이 아닙니다 — 초기에 배제하지 않아야 할 이유입니다.</p>
   </div>
 
   <div class="chartbox">
     <svg viewBox="0 0 340 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="성장단계 5구간">
-      <line x1="34" y1="30" x2="34" y2="272" stroke="#E3E9F2" stroke-width="6" stroke-linecap="round"/>
+      <line x1="34" y1="30" x2="34" y2="272" stroke="#E4E4E4" stroke-width="6" stroke-linecap="round"/>
       <g>
-        <circle cx="34" cy="42" r="13" fill="#fff" stroke="#9AA7BC" stroke-width="2"/>
-        <text x="34" y="46" font-size="10" font-weight="700" fill="#5B6B85" text-anchor="middle">준비</text>
-        <text x="60" y="39" font-size="13" font-weight="800" fill="#26324B">Pre-PHV</text>
-        <text x="60" y="55" font-size="11.5" fill="#5B6B85">급성장 전 · 아직 여린 몸</text>
+        <circle cx="34" cy="42" r="13" fill="#fff" stroke="#A6A6A6" stroke-width="2"/>
+        <text x="34" y="46" font-size="10" font-weight="700" fill="#6E6E73" text-anchor="middle">준비</text>
+        <text x="60" y="39" font-size="13" font-weight="800" fill="#1A1A1A">Pre-PHV</text>
+        <text x="60" y="55" font-size="11.5" fill="#6E6E73">급성장 전 · 아직 여린 몸</text>
       </g>
       <g>
-        <circle cx="34" cy="102" r="16" fill="#2FA36B"/>
+        <circle cx="34" cy="102" r="16" fill="#4DA969"/>
         <text x="34" y="107" font-size="11" font-weight="800" fill="#fff" text-anchor="middle">1</text>
-        <text x="60" y="93" font-size="13" font-weight="800" fill="#26324B">가속기</text>
-        <text x="60" y="109" font-size="11.5" fill="#5B6B85">성장 속도가 빨라짐</text>
-        <text x="60" y="125" font-size="11" font-weight="800" fill="#E4032E">◀ sample 선수의 현재 위치</text>
+        <text x="60" y="93" font-size="13" font-weight="800" fill="#1A1A1A">가속기</text>
+        <text x="60" y="109" font-size="11.5" fill="#6E6E73">성장 속도가 빨라짐</text>
+        <text x="60" y="125" font-size="11" font-weight="800" fill="#FC582B">◀ sample 선수의 현재 위치</text>
       </g>
       <g>
-        <circle cx="34" cy="162" r="13" fill="#fff" stroke="#2FA36B" stroke-width="2"/>
-        <text x="34" y="166" font-size="10" font-weight="700" fill="#2FA36B" text-anchor="middle">2</text>
-        <text x="60" y="159" font-size="13" font-weight="800" fill="#26324B">최고성장기</text>
-        <text x="60" y="175" font-size="11.5" fill="#5B6B85">PHV · 연간 성장폭이 가장 큼 (연간 10cm 내외)</text>
+        <circle cx="34" cy="162" r="13" fill="#fff" stroke="#4DA969" stroke-width="2"/>
+        <text x="34" y="166" font-size="10" font-weight="700" fill="#4DA969" text-anchor="middle">2</text>
+        <text x="60" y="159" font-size="13" font-weight="800" fill="#1A1A1A">최고성장기</text>
+        <text x="60" y="175" font-size="11.5" fill="#6E6E73">PHV · 연간 성장폭이 가장 큼 (연간 10cm 내외)</text>
       </g>
       <g>
-        <circle cx="34" cy="217" r="13" fill="#fff" stroke="#9AA7BC" stroke-width="2"/>
-        <text x="34" y="221" font-size="10" font-weight="700" fill="#5B6B85" text-anchor="middle">3</text>
-        <text x="60" y="214" font-size="13" font-weight="800" fill="#26324B">감속기</text>
-        <text x="60" y="230" font-size="11.5" fill="#5B6B85">성장 속도가 느려짐</text>
+        <circle cx="34" cy="217" r="13" fill="#fff" stroke="#A6A6A6" stroke-width="2"/>
+        <text x="34" y="221" font-size="10" font-weight="700" fill="#6E6E73" text-anchor="middle">3</text>
+        <text x="60" y="214" font-size="13" font-weight="800" fill="#1A1A1A">감속기</text>
+        <text x="60" y="230" font-size="11.5" fill="#6E6E73">성장 속도가 느려짐</text>
       </g>
       <g>
-        <circle cx="34" cy="270" r="13" fill="#fff" stroke="#9AA7BC" stroke-width="2"/>
-        <text x="34" y="274" font-size="10" font-weight="700" fill="#5B6B85" text-anchor="middle">4</text>
-        <text x="60" y="267" font-size="13" font-weight="800" fill="#26324B">종료초기</text>
-        <text x="60" y="283" font-size="11.5" fill="#5B6B85">성장 마무리 구간</text>
+        <circle cx="34" cy="270" r="13" fill="#fff" stroke="#A6A6A6" stroke-width="2"/>
+        <text x="34" y="274" font-size="10" font-weight="700" fill="#6E6E73" text-anchor="middle">4</text>
+        <text x="60" y="267" font-size="13" font-weight="800" fill="#1A1A1A">종료초기</text>
+        <text x="60" y="283" font-size="11.5" fill="#6E6E73">성장 마무리 구간</text>
       </g>
     </svg>
-    <div class="cap">▲ 성장단계 5구간 · 우리 아이는 지금 어디쯤일까요?</div>
+    <div class="cap">▲ 성장단계 5구간 · 이 선수는 지금 어디쯤일까요?</div>
   </div>
 
   <div class="card">
-    <h3>PHV — 가장 빨리 크는 시기, 가장 조심해야 하는 시기</h3>
+    <h3>PHV — 가장 빨리 크는 시기, 훈련부하 관리가 가장 중요한 시기</h3>
     <p>이 시기에는 키만 크는 게 아니라 <b>힘·스피드·밸런스·회복력이 함께 흔들립니다.</b></p>
     <ul class="clean ds" style="margin-top:10px;">
       <li>달리기·턴·볼터치가 잠시 어색해질 수 있습니다 — <b>태도 문제가 아니라 성장 적응 문제</b>입니다.</li>
       <li>무릎·발뒤꿈치·허벅지 뒤 통증(오스굿, 세버병 등)이 늘 수 있습니다.</li>
-      <li>훈련은 “많이”보다 <b>“잘 회복하며”</b> — 이 시기의 휴식은 게으름이 아니라 관리입니다.</li>
+      <li>훈련은 “많이”보다 <b>“잘 회복하며”</b> — 이 시기엔 코칭스태프가 개인별 부하관리를 해주셔야 합니다.</li>
     </ul>
   </div>
 
-  <h3 style="font-size:19px; font-weight:800; color:var(--navy); margin-top:28px;">“몇 cm까지 클까요?”</h3>
-  <p class="body">가장 많이 받는 질문입니다. 저희는 이 질문에 <b>하나의 숫자로 답하지 않습니다.</b>
-  아이의 최종 키는 X-ray 방식도 오차가 발생합니다. 부모님 키만으로도 정해지지 않습니다.</p>
+  <h3 style="font-size:19px; font-weight:800; color:var(--navy); margin-top:28px;">“이 선수, 몇 cm까지 클까요?”</h3>
+  <p class="body">장기 투자 여부를 판단할 때 가장 많이 받는 질문입니다. 저희는 이 질문에 <b>하나의 숫자로 답하지 않습니다.</b>
+  최종 키는 X-ray 방식도 오차가 발생합니다. 부모님 키만으로도 정해지지 않습니다.</p>
 
-  <div class="card" style="border-top:4px solid #9AA7BC;">
+  <div class="card" style="border-top:4px solid #A6A6A6;">
     <h3>MPH · 부모 키 기반 유전적 예측</h3>
     <p><b>부모님 키만으로</b> 계산한 참고 숫자입니다. 최근 연구에서도 이 방식이 설명하는 것은
     최종 키의 <b>약 36~40% 수준</b>으로 정확도가 낮습니다.</p>
@@ -759,14 +1015,14 @@
     하지만 골연령이 0.9년 느려 성장 여지가 남아 있고, 뼈나이 기반 예측은 <b>175 ~ 178cm</b>.
     부모 키 기반 예측(174cm)보다 오히려 높게 나왔습니다.</p>
     <p style="margin-top:10px; font-weight:700; color:var(--navy);">
-      → “지금 작다”가 “계속 작다”는 뜻이 아님을 데이터로 확인하는 것. 이것이 저희가 드리고 싶은 ‘기다림의 근거’입니다.</p>
+      → “지금 작다”가 “계속 작다”는 뜻이 아님을 데이터로 확인하는 것. 이것이 선발 단계에서 조기 배제를 막는 근거가 됩니다.</p>
   </div>
 
   <div class="card">
-    <h3>백분위수는 등수가 아닙니다</h3>
+    <h3>백분위수는 선발 등수가 아닙니다</h3>
     <p>백분위는 <b>또래 안에서의 현재 위치</b>일 뿐, 잘함/못함이 아닙니다.
     75th = 또래 중 큰 편, 25th = 또래 중 작은 편. 그게 전부입니다.
-    아이 앞에서 “등수”나 “점수”로 읽지 말아 주세요.</p>
+    선수 앞에서 “등수”나 “점수”로 읽지 말아 주세요.</p>
   </div>
   <div class="card">
     <h3>예측 키는 ‘범위’로 봅니다</h3>
@@ -777,53 +1033,38 @@
 
   <div class="callout">
     <div class="tag">저희가 드리는 약속</div>
-    <p>현재 MPS를 시행한 남아 715명은 모두 성장판 검사에 초음파 RUF 기법을 활용했습니다. <b>98~99% 의 정확도로</b>뼈나이를 예측합니다.
+    <p>현재 MPS를 시행한 남아 715명은 모두 성장판 검사에 초음파 RUF 기법을 활용했습니다. <b>98~99%의 정확도로</b> 뼈나이를 예측합니다.
     다만 이것은 두 계산의 일치도이지, <b>“최종 키 적중률”은 아닙니다.</b>
-    적중률은 아이들이 다 자란 뒤 추적 데이터로 검증해 공개하는 것이 저희의 원칙입니다.</p>
+    적중률은 선수들이 다 자란 뒤 추적 데이터로 검증해 공개하는 것이 저희의 원칙입니다.</p>
   </div>
 </section>
 
 <!-- ========== SUMMARY ========== -->
 <section id="summary">
   <div class="kicker">SUMMARY · 한 장 요약</div>
-  <h2>부모님께 꼭 드리고 싶은 말</h2>
+  <h2>코칭스태프께 꼭 드리고 싶은 말</h2>
 
   <div class="card tint">
     <h3>MPS를 한 문장으로</h3>
     <p style="font-size:16px; font-weight:700; color:var(--navy);">
       “10~15세 축구선수의 마음(M)·몸(P)·성장 시계(S)를 데이터로 함께 확인해,
-      아이가 자기 속도로 자랄 수 있게 돕는 성장평가 시스템.”</p>
+      지도자가 선수 개개인에게 맞는 훈련과 기용을 설계할 수 있게 돕는 성장평가 시스템.”</p>
   </div>
 
   <div class="card">
     <h3>다섯 가지만 기억해 주세요</h3>
     <div class="deflist">
-      <div class="row"><div class="k">1</div><div class="v">MPS 점수는 <b>평가가 아니라 도와줄 방향</b>입니다. “부족한 곳”이 아니라 “함께 키울 곳”입니다.</div></div>
-      <div class="row"><div class="k">2</div><div class="v">M — 멘탈 점수는 성격 판정표가 아니라 <b>아이와의 대화 재료</b>입니다. 강점부터 말해 주세요.</div></div>
-      <div class="row"><div class="k">3</div><div class="v">P — 부상은 갑자기 오지 않습니다. <b>아프기 전 신호</b>를 신호등 색으로 확인해 주세요.</div></div>
-      <div class="row"><div class="k">4</div><div class="v">S — 지금 작다고 계속 작은 것도, 지금 크다고 끝까지 큰 것도 아닙니다. <b>예측 키는 가능성</b>입니다.</div></div>
-      <div class="row"><div class="k">5</div><div class="v">리포트는 의료 진단이 아닙니다. <b>의학적 판단이 필요한경우 반드시 의료진 추가상담</b>을 통해 확인해 주세요.</div></div>
+      <div class="row"><div class="k">1</div><div class="v">MPS 점수는 <b>선수를 줄 세우는 도구가 아니라 훈련설계 방향</b>입니다. “잘하는 선수/부족한 선수”가 아니라 “지금 필요한 것”입니다.</div></div>
+      <div class="row"><div class="k">2</div><div class="v">M — 멘탈 점수는 주전 배제 근거가 아니라 <b>코칭 대화의 재료</b>입니다. 강점부터 말해 주세요.</div></div>
+      <div class="row"><div class="k">3</div><div class="v">P — 부상은 갑자기 오지 않습니다. <b>아프기 전 신호</b>를 신호등 색으로 확인해 훈련강도를 조율해 주세요.</div></div>
+      <div class="row"><div class="k">4</div><div class="v">S — 지금 작다고 계속 작은 것도, 지금 크다고 끝까지 앞서는 것도 아닙니다. <b>선발 기준을 체격만으로 고정하지 마세요.</b></div></div>
+      <div class="row"><div class="k">5</div><div class="v">리포트는 의료 진단이 아닙니다. <b>의학적 판단이 필요한 경우 반드시 의료진 추가상담</b>을 통해 확인해 주세요.</div></div>
     </div>
-  </div>
-
-  <div class="card" style="background:var(--s-bg); border:none;">
-    <h3 style="color:var(--s-green);">아이에게 들려주면 좋은 말</h3>
-    <ul class="clean ds">
-      <li>“지금은 네 속도로 크는 중이야.”</li>
-      <li>“이건 네 강점이래. 더 키워보자.”</li>
-    </ul>
-  </div>
-  <div class="card" style="background:var(--p-bg); border:none;">
-    <h3 style="color:var(--p-red);">잠시 접어두면 좋은 말</h3>
-    <ul class="clean dp">
-      <li>“다른 애들은 벌써 이만큼 컸는데.”</li>
-      <li>“너 이러다 늦는다.”</li>
-    </ul>
   </div>
 
   <div class="card tint">
     <h3>검사는 한 번으로 끝나지 않습니다</h3>
-    <p>종합검사(21종) → M·P·S 리포트 → 집과 팀에서 가이드 실천(필요시 MPS 퍼포먼스 강화프로그램 병행) → <b>약 3개월 후 재평가</b> → 성장곡선과 예측 범위 업데이트.
+    <p>종합검사(21종) → M·P·S 리포트 → 훈련장과 팀 매니지먼트에서 가이드 실천(필요시 MPS 퍼포먼스 강화프로그램 병행) → <b>약 3개월 후 재평가</b> → 성장곡선과 예측 범위 업데이트.
     한 번의 숫자가 아니라 <b>계속 이어지는 밀착관리와 동행</b>이 저희가 드리는 것입니다.</p>
   </div>
 </section>
@@ -831,10 +1072,11 @@
 </div>
 
 <footer>
-  <div class="f1">아이는 당장의 최고 속도가 아니라<br>자기 속도로 꾸준하게 자랄 때 더 멀리 갑니다.</div>
+  <img src="data:image/png;base64,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" alt="MPS" style="height:30px; width:auto; margin:0 auto 18px; display:block;">
+  <div class="f1">팀은 한 명의 최고 속도가 아니라<br>11명 각자의 성장속도를 이해할 때 더 멀리 갑니다.</div>
   <div class="f2"><b style="color:#fff;">11명의 선수, 11가지 성장속도</b><br>주니어골든에이지 MPS</div>
   <div class="f3">
-    © juniorgoldenage · 학부모용 안내자료<br>
+    © juniorgoldenage · 지도자·팀관계자용 안내자료<br>
     본 자료는 juniorgoldenage의 데이터 시각화 안내입니다. 의료적 진단을 대체하지 않으며,
     제휴 의료기관의 검사 결과를 기반으로 분석 정보를 제공합니다.<br>
     의학적 판단 및 진단은 반드시 담당 의료진을 통해 확인해야 합니다.
@@ -851,8 +1093,8 @@
       top   = document.getElementById('toTop'),
       bar   = document.getElementById('progbar'),
       links = menu.querySelectorAll('a'),
-      ids   = ['home','why','overview','mental','physical','stage','summary'],
-      names = {home:'첫화면', why:'왜 필요한가요', overview:'MPS 한눈에',
+      ids   = ['home','why','overview','dashboard','mental','physical','stage','summary'],
+      names = {home:'첫화면', why:'지도자의 판단', overview:'MPS 한눈에', dashboard:'팀 대시보드',
                mental:'멘탈', physical:'피지컬', stage:'성장단계', summary:'한 장 요약'},
       open  = false;
 
